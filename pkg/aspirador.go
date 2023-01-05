@@ -8,51 +8,44 @@ const (
 	defaultLoggerFlag = log.Ldate | log.Ltime | log.Lshortfile | log.Lmicroseconds
 )
 
-var (
-	global Aspirador
-)
-
-type aspiradorRecord struct {
-	Message string
-	Level   Level
-}
-
-type aspiradorWriter interface {
-	Write(ar aspiradorRecord)
-}
-
 type Aspirador struct {
-	writers []aspiradorWriter
+	writers []AspiradorClient
 }
 
 // Default to Console.
-func NewAspirador() {
-	writers := make([]aspiradorWriter, 1)
-	writers[0] = NewConsoleWriter()
+func NewAspirador() Aspirador {
+	writers := make([]AspiradorClient, 1)
+	writers[0] = NewConsoleClient()
 
-	global = Aspirador{
+	return Aspirador{
 		writers: writers,
 	}
 }
 
-func Trace(msg string) {
-	global.log(TRACE, msg)
+func (as *Aspirador) AddAspirador(fp string) {
+	writer := NewFileClient(fp)
+
+	as.writers = append(as.writers, writer)
 }
 
-func Info(msg string) {
-	global.log(INFO, msg)
+func (as Aspirador) Trace(msg string) {
+	as.log(TRACE, msg)
 }
 
-func Warning(msg string) {
-	global.log(WARNING, msg)
+func (as Aspirador) Info(msg string) {
+	as.log(INFO, msg)
 }
 
-func Error(msg string) {
-	global.log(ERROR, msg)
+func (as Aspirador) Warning(msg string) {
+	as.log(WARNING, msg)
+}
+
+func (as Aspirador) Error(msg string) {
+	as.log(ERROR, msg)
 }
 
 func (as Aspirador) log(lvl Level, msg string) {
-	record := aspiradorRecord{
+	record := AspiradorRecord{
 		Level:   lvl,
 		Message: msg,
 	}
