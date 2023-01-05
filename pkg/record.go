@@ -1,6 +1,6 @@
 package pkg
 
-type AspiradorRecord struct {
+type Record struct {
 	Message string
 	Level   Level
 }

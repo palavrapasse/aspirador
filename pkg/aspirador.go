@@ -9,23 +9,17 @@ const (
 )
 
 type Aspirador struct {
-	writers []AspiradorClient
+	writers []Client
 }
 
 // Default to Console.
 func NewAspirador() Aspirador {
-	writers := make([]AspiradorClient, 1)
+	writers := make([]Client, 1)
 	writers[0] = NewConsoleClient()
 
 	return Aspirador{
 		writers: writers,
 	}
-}
-
-func (as *Aspirador) AddAspirador(fp string) {
-	writer := NewFileClient(fp)
-
-	as.writers = append(as.writers, writer)
 }
 
 func (as Aspirador) Trace(msg string) {
@@ -45,7 +39,7 @@ func (as Aspirador) Error(msg string) {
 }
 
 func (as Aspirador) log(lvl Level, msg string) {
-	record := AspiradorRecord{
+	record := Record{
 		Level:   lvl,
 		Message: msg,
 	}

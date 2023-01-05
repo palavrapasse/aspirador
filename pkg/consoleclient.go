@@ -21,7 +21,7 @@ func NewConsoleClient() ConsoleClient {
 	}
 }
 
-func (cw ConsoleClient) Write(ar AspiradorRecord) {
+func (cw ConsoleClient) Write(ar Record) {
 	logger := cw.loggers[ar.Level]
 	logger.Println(ar.Message)
 }
