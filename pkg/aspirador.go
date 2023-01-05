@@ -9,16 +9,16 @@ const (
 )
 
 type Aspirador struct {
-	writers []Client
+	clients []Client
 }
 
 // Default to Console.
 func NewAspirador() Aspirador {
-	writers := make([]Client, 1)
-	writers[0] = NewConsoleClient()
+	clients := make([]Client, 1)
+	clients[0] = NewConsoleClient()
 
 	return Aspirador{
-		writers: writers,
+		clients: clients,
 	}
 }
 
@@ -44,7 +44,7 @@ func (as Aspirador) log(lvl Level, msg string) {
 		Message: msg,
 	}
 
-	for _, v := range as.writers {
+	for _, v := range as.clients {
 		v.Write(record)
 	}
 
