@@ -21,7 +21,6 @@ func NewConsoleClient() ConsoleClient {
 	}
 }
 
-func (cw ConsoleClient) Write(ar Record) {
-	logger := cw.loggers[ar.Level]
-	logger.Println(ar.Message)
+func (cc ConsoleClient) Write(ar Record) {
+	cc.loggers[ar.Level].Println(ar.Message)
 }
