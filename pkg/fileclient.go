@@ -9,11 +9,11 @@ type FileClient struct {
 	loggers []*log.Logger
 }
 
-func NewFileClient(fp string) FileClient {
+func NewFileClient(fp string) (FileClient, error) {
 	file, err := os.OpenFile(fp, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0770)
 
 	if err != nil {
-		panic("Could not open logging file")
+		return FileClient{}, err
 	}
 
 	loggers := make([]*log.Logger, len(levelPrefix))
@@ -24,7 +24,7 @@ func NewFileClient(fp string) FileClient {
 
 	return FileClient{
 		loggers: loggers,
-	}
+	}, nil
 }
 
 func (fc FileClient) Write(ar Record) {

@@ -22,10 +22,14 @@ func NewAspirador() Aspirador {
 	}
 }
 
-func (as *Aspirador) AddFileClient(fp string) {
-	client := NewFileClient(fp)
+func (as *Aspirador) AddFileClient(fp string) error {
+	client, err := NewFileClient(fp)
 
-	as.clients = append(as.clients, client)
+	if err == nil {
+		as.clients = append(as.clients, client)
+	}
+
+	return err
 }
 
 func (as Aspirador) Trace(msg string) {
