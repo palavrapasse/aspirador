@@ -22,6 +22,12 @@ func NewAspirador() Aspirador {
 	}
 }
 
+func (as *Aspirador) AddFileClient(fp string) {
+	client := NewFileClient(fp)
+
+	as.clients = append(as.clients, client)
+}
+
 func (as Aspirador) Trace(msg string) {
 	as.log(TRACE, msg)
 }
