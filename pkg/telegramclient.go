@@ -15,9 +15,9 @@ type TelegramClient struct {
 	logs   []string
 }
 
-func NewTelegramClient(tokenId, chatId string) TelegramClient {
+func NewTelegramClient(botToken, chatId string) TelegramClient {
 
-	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tokenId)
+	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", botToken)
 
 	return TelegramClient{
 		url:    url,
@@ -31,7 +31,7 @@ func (tc TelegramClient) Write(ar Record) {
 
 	body, err := json.Marshal(map[string]string{
 		"chat_id": tc.chatId,
-		"text":    log + ar.Message,
+		"text":    fmt.Sprintf("%s%s", log, ar.Message),
 	})
 
 	if err != nil {
