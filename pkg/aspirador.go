@@ -14,22 +14,13 @@ type Aspirador struct {
 
 // Default to Console.
 func NewAspirador() Aspirador {
-	clients := make([]Client, 1)
-	clients[0] = NewConsoleClient()
-
-	return Aspirador{
-		clients: clients,
-	}
+	return WithClients([]Client{NewConsoleClient()})
 }
 
-func (as *Aspirador) AddFileClient(fp string) error {
-	client, err := NewFileClient(fp)
-
-	if err == nil {
-		as.clients = append(as.clients, client)
+func WithClients(cs []Client) Aspirador {
+	return Aspirador{
+		clients: cs,
 	}
-
-	return err
 }
 
 func (as Aspirador) Trace(msg string) {
