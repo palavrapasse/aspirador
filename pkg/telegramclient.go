@@ -5,10 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 )
 
-const tokenEnvKey = "telegram_token"
 const messageType = "application/json"
 
 type TelegramClient struct {
@@ -17,9 +15,9 @@ type TelegramClient struct {
 	logs   []string
 }
 
-func NewTelegramClient(chatId string) TelegramClient {
+func NewTelegramClient(tokenId, chatId string) TelegramClient {
 
-	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", os.Getenv(tokenEnvKey))
+	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tokenId)
 
 	return TelegramClient{
 		url:    url,
@@ -28,11 +26,11 @@ func NewTelegramClient(chatId string) TelegramClient {
 	}
 }
 
-func (tw TelegramClient) Write(ar Record) {
-	log := tw.logs[ar.Level]
+func (tc TelegramClient) Write(ar Record) {
+	log := tc.logs[ar.Level]
 
 	body, err := json.Marshal(map[string]string{
-		"chat_id": tw.chatId,
+		"chat_id": tc.chatId,
 		"text":    log + ar.Message,
 	})
 
@@ -40,7 +38,7 @@ func (tw TelegramClient) Write(ar Record) {
 		return
 	}
 
-	response, err := http.Post(tw.url, messageType, bytes.NewBuffer(body))
+	response, err := http.Post(tc.url, messageType, bytes.NewBuffer(body))
 
 	if err != nil {
 		return
