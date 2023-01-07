@@ -14,11 +14,12 @@ type Aspirador struct {
 
 // Default to Console.
 func NewAspirador() Aspirador {
-	clients := make([]Client, 1)
-	clients[0] = NewConsoleClient()
+	return WithClients([]Client{NewConsoleClient()})
+}
 
+func WithClients(cs []Client) Aspirador {
 	return Aspirador{
-		clients: clients,
+		clients: cs,
 	}
 }
 
