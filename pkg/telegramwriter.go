@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -26,6 +27,8 @@ func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tw.botToken)
 
 	response, err := http.Post(url, messageType, bytes.NewBuffer(body))
+
+	log.Printf("ahhhhh: %d | %v", response.StatusCode, err)
 
 	if err != nil {
 		return 0, err
