@@ -28,7 +28,12 @@ func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 
 	response, err := http.Post(url, messageType, bytes.NewBuffer(body))
 
-	log.Printf("ahhhhh: %d | %v", response.StatusCode, err)
+	if err == nil {
+		log.Printf("ahhhhh: %d", response.StatusCode)
+	} else {
+		log.Printf("ahhhhh 2: %v", err)
+
+	}
 
 	if err != nil {
 		return 0, err
