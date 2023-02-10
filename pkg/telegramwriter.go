@@ -2,12 +2,9 @@ package pkg
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"golang.org/x/sync/errgroup"
 )
 
 type TelegramWriter struct {
@@ -28,29 +25,27 @@ func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tw.botToken)
 
-	resultChan := make(chan *http.Response, 1)
+	resultChan := make(chan *http.Response)
 
-	errGrp, _ := errgroup.WithContext(context.Background())
-
-	errGrp.Go(func() error { return asyncPost(url, body, resultChan) })
-
-	err = errGrp.Wait()
-	if err != nil {
-		return 0, err
-	}
+	go asyncPost(url, body, resultChan)
 
 	response := <-resultChan
-	defer response.Body.Close()
+	defer func() {
+		if response != nil && response.Body != nil {
+			response.Body.Close()
+		}
+	}()
 
 	return len(p), nil
 }
 
-func asyncPost(url string, body []byte, rc chan *http.Response) error {
+func asyncPost(url string, body []byte, rc chan *http.Response) {
 	response, err := http.Post(url, messageType, bytes.NewBuffer(body))
 
-	if err == nil {
+	if err != nil {
 		rc <- response
+		return
 	}
 
-	return err
+	rc <- response
 }
