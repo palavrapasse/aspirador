@@ -15,6 +15,7 @@ This repository is configured with client-side Git hooks which you need to insta
 - Log to console
 - Log to file
 - Log to Telegram chat
+- Enumerate the log's levels 
 
 
 ## Usage
@@ -44,14 +45,14 @@ import (
 )
 
 func main() {
-	fileClient, err := aspirador.NewFileClient("filename.log")
+	fileClient, err := aspirador.NewFileClient("filename.log") // Will print all Levels (TRACE, INFO, WARNING, ERROR) logs
 	if err != nil {
 		return
 	}
 
-	consoleClient := aspirador.NewConsoleClient()
+	consoleClient := aspirador.NewConsoleClient(aspirador.WARNING, aspirador.ERROR) // Will only print Warning and Error logs
 
-	telegramClient := aspirador.NewTelegramClient("telegram_bot_token", "chat_id")
+	telegramClient := aspirador.NewTelegramClient("telegram_bot_token", "chat_id", aspirador.ERROR) // Will only print Error logs
 
 	clients := []aspirador.Client{fileClient, consoleClient, telegramClient}
 
