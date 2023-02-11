@@ -1,26 +1,18 @@
 package pkg
 
-import (
-	"log"
-)
-
 const messageType = "application/json"
 
 type TelegramClient struct {
-	loggers []*log.Logger
+	loggers LevelLogger
 }
 
-func NewTelegramClient(botToken, chatId string) TelegramClient {
+func NewTelegramClient(botToken, chatId string, levels ...Level) TelegramClient {
 	tw := TelegramWriter{
 		botToken: botToken,
 		chatId:   chatId,
 	}
 
-	loggers := make([]*log.Logger, len(levelPrefix))
-
-	for i, v := range levelPrefix {
-		loggers[i] = log.New(tw, v, defaultLoggerFlag)
-	}
+	loggers := NewLevelLogger(tw, defaultLoggerFlag, levels)
 
 	return TelegramClient{
 		loggers: loggers,
@@ -29,4 +21,8 @@ func NewTelegramClient(botToken, chatId string) TelegramClient {
 
 func (tc TelegramClient) Write(ar Record) {
 	tc.loggers[ar.Level].Println(ar.Message)
+}
+
+func (tc TelegramClient) SupportsLevel(l Level) bool {
+	return tc.loggers.ContainsLevel(l)
 }

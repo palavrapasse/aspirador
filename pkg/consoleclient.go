@@ -1,20 +1,15 @@
 package pkg
 
 import (
-	"log"
 	"os"
 )
 
 type ConsoleClient struct {
-	loggers []*log.Logger
+	loggers LevelLogger
 }
 
-func NewConsoleClient() ConsoleClient {
-	loggers := make([]*log.Logger, len(levelPrefix))
-
-	for i, v := range levelPrefix {
-		loggers[i] = log.New(os.Stdout, v, defaultLoggerFlag)
-	}
+func NewConsoleClient(levels ...Level) ConsoleClient {
+	loggers := NewLevelLogger(os.Stdout, defaultLoggerFlag, levels)
 
 	return ConsoleClient{
 		loggers: loggers,
@@ -22,5 +17,15 @@ func NewConsoleClient() ConsoleClient {
 }
 
 func (cc ConsoleClient) Write(ar Record) {
-	cc.loggers[ar.Level].Println(ar.Message)
+	logger, exists := cc.loggers[ar.Level]
+
+	if !exists {
+		return
+	}
+
+	logger.Println(ar.Message)
+}
+
+func (cc ConsoleClient) SupportsLevel(l Level) bool {
+	return cc.loggers.ContainsLevel(l)
 }
