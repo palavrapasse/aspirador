@@ -29,13 +29,6 @@ func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 
 	go asyncPost(url, body, resultChan)
 
-	response := <-resultChan
-	defer func() {
-		if response != nil && response.Body != nil {
-			response.Body.Close()
-		}
-	}()
-
 	return len(p), nil
 }
 
@@ -48,4 +41,9 @@ func asyncPost(url string, body []byte, rc chan *http.Response) {
 	}
 
 	rc <- response
+
+	if response != nil && response.Body != nil {
+		response.Body.Close()
+	}
+
 }
