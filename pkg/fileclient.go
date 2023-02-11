@@ -31,3 +31,7 @@ func (fc FileClient) Write(ar Record) {
 
 	logger.Println(ar.Message)
 }
+
+func (fc FileClient) SupportsLevel(l Level) bool {
+	return fc.loggers.ContainsLevel(l)
+}

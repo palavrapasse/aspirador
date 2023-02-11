@@ -25,3 +25,7 @@ func (cc ConsoleClient) Write(ar Record) {
 
 	logger.Println(ar.Message)
 }
+
+func (cc ConsoleClient) SupportsLevel(l Level) bool {
+	return cc.loggers.ContainsLevel(l)
+}
