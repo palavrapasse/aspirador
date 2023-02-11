@@ -17,5 +17,11 @@ func NewConsoleClient(levels ...Level) ConsoleClient {
 }
 
 func (cc ConsoleClient) Write(ar Record) {
-	cc.loggers[ar.Level].Println(ar.Message)
+	logger, exists := cc.loggers[ar.Level]
+
+	if !exists {
+		return
+	}
+
+	logger.Println(ar.Message)
 }
