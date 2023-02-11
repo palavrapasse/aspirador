@@ -23,5 +23,11 @@ func NewFileClient(fp string, levels ...Level) (FileClient, error) {
 }
 
 func (fc FileClient) Write(ar Record) {
-	fc.loggers[ar.Level].Println(ar.Message)
+	logger, exists := fc.loggers[ar.Level]
+
+	if !exists {
+		return
+	}
+
+	logger.Println(ar.Message)
 }
