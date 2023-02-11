@@ -12,8 +12,6 @@ type TelegramWriter struct {
 	chatId   string
 }
 
-var resultChan = make(chan *http.Response)
-
 func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 
 	body, err := json.Marshal(map[string]string{
@@ -27,22 +25,19 @@ func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", tw.botToken)
 
-	go asyncPost(url, body, resultChan)
+	go asyncPost(url, body)
 
 	return len(p), nil
 }
 
-func asyncPost(url string, body []byte, rc chan *http.Response) {
+func asyncPost(url string, body []byte) {
 	response, err := http.Post(url, messageType, bytes.NewBuffer(body))
 
 	if err != nil {
-		rc <- response
 		return
 	}
 
-	rc <- response
-
-	if response != nil && response.Body != nil {
+	if response.Body != nil {
 		response.Body.Close()
 	}
 
