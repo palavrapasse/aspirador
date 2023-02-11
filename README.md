@@ -15,7 +15,7 @@ This repository is configured with client-side Git hooks which you need to insta
 - Log to console
 - Log to file
 - Log to Telegram chat
-- Enumerate the log's levels 
+- Log only for specific levels
 
 
 ## Usage
