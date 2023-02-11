@@ -20,5 +20,11 @@ func NewTelegramClient(botToken, chatId string, levels ...Level) TelegramClient 
 }
 
 func (tc TelegramClient) Write(ar Record) {
-	tc.loggers[ar.Level].Println(ar.Message)
+	logger, exists := tc.loggers[ar.Level]
+
+	if !exists {
+		return
+	}
+
+	logger.Println(ar.Message)
 }
