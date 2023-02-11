@@ -23,3 +23,8 @@ func NewLevelLogger(out io.Writer, flag int, levels []Level) LevelLogger {
 
 	return result
 }
+
+func (ll LevelLogger) ContainsLevel(l Level) bool {
+	_, exists := ll[l]
+	return exists
+}

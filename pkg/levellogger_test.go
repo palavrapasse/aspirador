@@ -126,3 +126,25 @@ func TestNewLevelLoggerWithMultipleLevelsReturnsLevelLoggerWithTheLevelsProvided
 
 	}
 }
+
+func TestContaisLevelWithLevelPresentReturnsTrue(t *testing.T) {
+
+	levels := []Level{TRACE}
+	ll := NewLevelLogger(os.Stdout, defaultLoggerFlag, levels)
+	result := ll.ContainsLevel(TRACE)
+
+	if !result {
+		t.Fatalf("Level is present in LevelLogger so it should return true")
+	}
+}
+
+func TestContaisLevelWithLevelNotPresentReturnsFalse(t *testing.T) {
+
+	levels := []Level{TRACE}
+	ll := NewLevelLogger(os.Stdout, defaultLoggerFlag, levels)
+	result := ll.ContainsLevel(ERROR)
+
+	if result {
+		t.Fatalf("Level is not present in LevelLogger so it should return false")
+	}
+}
