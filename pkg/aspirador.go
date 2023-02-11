@@ -46,7 +46,9 @@ func (as Aspirador) log(lvl Level, msg string) {
 	}
 
 	for _, v := range as.clients {
-		v.Write(record)
+		if v.SupportsLevel(lvl) {
+			v.Write(record)
+		}
 	}
 
 }
