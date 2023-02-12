@@ -33,11 +33,16 @@ func (tw TelegramWriter) Write(p []byte) (n int, err error) {
 func asyncPost(url string, body []byte) {
 	response, err := http.Post(url, messageType, bytes.NewBuffer(body))
 
+	fmt.Printf("url! %s", url)
+
 	if err != nil {
+		fmt.Printf("woooow! %v", err)
 		return
 	}
 
 	if response.Body != nil {
+		fmt.Printf("yooo:  %d", response.StatusCode)
+
 		response.Body.Close()
 	}
 
