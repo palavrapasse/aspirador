@@ -18,7 +18,7 @@ func NewLevelLogger(out io.Writer, flag int, levels []Level) LevelLogger {
 	result := make(map[Level]*log.Logger, size)
 
 	for _, v := range levels {
-		result[v] = log.New(out, levelPrefix[v], flag)
+		result[v] = log.New(out, "", flag)
 	}
 
 	return result
