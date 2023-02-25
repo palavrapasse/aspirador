@@ -8,7 +8,7 @@ const (
 )
 
 var (
-	levelPrefix = []string{"TRACE: ", "INFO: ", "WARNING: ", "ERROR: "}
+	levelPrefix = []string{"TRACE", "INFO", "WARNING", "ERROR"}
 )
 
 type Level int
