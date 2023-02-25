@@ -10,7 +10,8 @@ type Aspirador struct {
 
 // Default to Console.
 func NewAspirador() Aspirador {
-	return WithClients([]Client{NewConsoleClient()})
+	console := NewConsoleClient()
+	return WithClients([]Client{&console})
 }
 
 func WithClients(cs []Client) Aspirador {
