@@ -1,11 +1,7 @@
 package pkg
 
-import (
-	"log"
-)
-
 const (
-	defaultLoggerFlag = log.Ldate | log.Ltime | log.Lshortfile | log.Lmicroseconds
+	defaultLoggerFlag = 0
 )
 
 type Aspirador struct {

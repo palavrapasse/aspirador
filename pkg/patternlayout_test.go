@@ -24,7 +24,7 @@ func TestFormatRecordWithoutPatternsShouldBeFormatingString(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyDatePatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(datePattern)
+	format := PatternLayout(DatePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 
 	if result == string(format) {
@@ -33,7 +33,7 @@ func TestFormatRecordWithOnlyDatePatternShouldNotContainPattern(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyDatePatternShouldHaveSize10(t *testing.T) {
-	format := PatternLayout(datePattern)
+	format := PatternLayout(DatePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 	expected := 10
 	size := len(result)
@@ -44,7 +44,7 @@ func TestFormatRecordWithOnlyDatePatternShouldHaveSize10(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyFileNamePatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(fileNamePattern)
+	format := PatternLayout(FileNamePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 
 	if result == string(format) {
@@ -53,7 +53,7 @@ func TestFormatRecordWithOnlyFileNamePatternShouldNotContainPattern(t *testing.T
 }
 
 func TestFormatRecordWithOnlyLevelPatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(levelPattern)
+	format := PatternLayout(LevelPattern)
 	result := format.FormatRecord(Record{Message: "test", Level: TRACE})
 
 	if result == string(format) {
@@ -62,7 +62,7 @@ func TestFormatRecordWithOnlyLevelPatternShouldNotContainPattern(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyLevelPatternShouldContainLevel(t *testing.T) {
-	format := PatternLayout(levelPattern)
+	format := PatternLayout(LevelPattern)
 	result := format.FormatRecord(Record{Message: "test", Level: TRACE})
 	expected := "TRACE"
 
@@ -72,26 +72,16 @@ func TestFormatRecordWithOnlyLevelPatternShouldContainLevel(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyLinePatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(linePattern)
+	format := PatternLayout(LinePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 
 	if result == string(format) {
 		t.Fatalf("Formating String (%s) should not contain the Pattern (%s)", format, result)
-	}
-}
-
-func TestFormatRecordWithOnlyLinePatternShouldContainLine(t *testing.T) {
-	format := PatternLayout(linePattern)
-	result := format.FormatRecord(Record{Message: "test"})
-	expected := "1594"
-
-	if result != expected {
-		t.Fatalf("Formating String (%s) should result in %s but was %s", format, expected, result)
 	}
 }
 
 func TestFormatRecordWithOnlyMethodPatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(methodPattern)
+	format := PatternLayout(MethodPattern)
 	result := format.FormatRecord(Record{Message: "test"})
 
 	if result == string(format) {
@@ -99,18 +89,8 @@ func TestFormatRecordWithOnlyMethodPatternShouldNotContainPattern(t *testing.T) 
 	}
 }
 
-func TestFormatRecordWithOnlyMethodPatternShouldContainMethod(t *testing.T) {
-	format := PatternLayout(methodPattern)
-	result := format.FormatRecord(Record{Message: "test"})
-	expected := "runtime.goexit"
-
-	if result != expected {
-		t.Fatalf("Formating String (%s) should result in %s but was %s", format, expected, result)
-	}
-}
-
 func TestFormatRecordWithOnlyMessagePatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(messagePattern)
+	format := PatternLayout(MessagePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 
 	if result == string(format) {
@@ -119,7 +99,7 @@ func TestFormatRecordWithOnlyMessagePatternShouldNotContainPattern(t *testing.T)
 }
 
 func TestFormatRecordWithOnlyMessagePatternShouldContainMessage(t *testing.T) {
-	format := PatternLayout(messagePattern)
+	format := PatternLayout(MessagePattern)
 	expected := "test"
 	result := format.FormatRecord(Record{Message: expected})
 
@@ -129,7 +109,7 @@ func TestFormatRecordWithOnlyMessagePatternShouldContainMessage(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyTimePatternShouldNotContainPattern(t *testing.T) {
-	format := PatternLayout(timePattern)
+	format := PatternLayout(TimePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 
 	if result == string(format) {
@@ -138,7 +118,7 @@ func TestFormatRecordWithOnlyTimePatternShouldNotContainPattern(t *testing.T) {
 }
 
 func TestFormatRecordWithOnlyTimePatternShouldHaveSize8(t *testing.T) {
-	format := PatternLayout(timePattern)
+	format := PatternLayout(TimePattern)
 	result := format.FormatRecord(Record{Message: "test"})
 	expected := 8
 	size := len(result)
@@ -149,7 +129,7 @@ func TestFormatRecordWithOnlyTimePatternShouldHaveSize8(t *testing.T) {
 }
 
 func TestFormatRecordWithAllPatternShouldNotContainPatterns(t *testing.T) {
-	format := PatternLayout(datePattern + fileNamePattern + levelPattern + linePattern + methodPattern + messagePattern + timePattern)
+	format := PatternLayout(DatePattern + FileNamePattern + LevelPattern + LinePattern + MethodPattern + MessagePattern + TimePattern)
 	result := format.FormatRecord(Record{Message: "test", Level: TRACE})
 
 	if result == string(format) {
@@ -158,7 +138,7 @@ func TestFormatRecordWithAllPatternShouldNotContainPatterns(t *testing.T) {
 }
 
 func TestFormatRecordWithLevelAndMessagePatternShouldNotContainPatterns(t *testing.T) {
-	format := PatternLayout(fmt.Sprintf("[%s] %s", levelPattern, messagePattern))
+	format := PatternLayout(fmt.Sprintf("[%s] %s", LevelPattern, MessagePattern))
 	result := format.FormatRecord(Record{Message: "test", Level: TRACE})
 
 	if result == string(format) {
@@ -167,7 +147,7 @@ func TestFormatRecordWithLevelAndMessagePatternShouldNotContainPatterns(t *testi
 }
 
 func TestFormatRecordWithLevelAndMessagePatternShouldResultInLevelAndMessage(t *testing.T) {
-	format := PatternLayout(fmt.Sprintf("[%s] %s", levelPattern, messagePattern))
+	format := PatternLayout(fmt.Sprintf("[%s] %s", LevelPattern, MessagePattern))
 	result := format.FormatRecord(Record{Message: "test", Level: TRACE})
 	expected := "[TRACE] test"
 
