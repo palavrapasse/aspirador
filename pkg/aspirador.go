@@ -1,11 +1,7 @@
 package pkg
 
-import (
-	"log"
-)
-
 const (
-	defaultLoggerFlag = log.Ldate | log.Ltime | log.Lshortfile | log.Lmicroseconds
+	defaultLoggerFlag = 0
 )
 
 type Aspirador struct {
@@ -14,7 +10,8 @@ type Aspirador struct {
 
 // Default to Console.
 func NewAspirador() Aspirador {
-	return WithClients([]Client{NewConsoleClient()})
+	console := NewConsoleClient()
+	return WithClients([]Client{&console})
 }
 
 func WithClients(cs []Client) Aspirador {
