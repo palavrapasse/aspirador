@@ -46,7 +46,7 @@ import (
 )
 
 func main() {
-	customPattern := aspirador.PatternLayout(fmt.Sprintf("Using Custom Parttern Layout - [%s] %s %s:%s : %s", aspirador.LevelPattern, aspirador.DatePattern, aspirador.MethodPattern, aspirador.LinePattern, aspirador.MessagePattern))
+	customPattern := aspirador.PatternLayout(fmt.Sprintf("Using Custom Pattern Layout - [%s] %s %s:%s : %s", aspirador.LevelPattern, aspirador.DatePattern, aspirador.MethodPattern, aspirador.LinePattern, aspirador.MessagePattern))
 
 	fileClient, err := aspirador.NewFileClient("filename.log") // Will print all Levels (TRACE, INFO, WARNING, ERROR) logs, with the custom parttern layout
 	if err != nil {
